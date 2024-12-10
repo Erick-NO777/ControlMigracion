@@ -1,0 +1,67 @@
+﻿@model ControlMigracion.Controllers.MOVIMIENTO
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MOVIMIENTO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoSolicitud)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoSolicitud)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAIS.NombrePais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAIS.NombrePais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PAIS1.NombrePais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAIS1.NombrePais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USUARIO.NombreUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USUARIO.NombreUsuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VIAJERO.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VIAJERO.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ControlMigracionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DOCUMENTO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoDocumento" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumeroDocumento" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaExpiracion" Type="datetime" Nullable="false" />
+          <Property Name="IdViajero" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MOVIMIENTOS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdViajero" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Destino" Type="int" Nullable="false" />
+          <Property Name="Origen" Type="int" Nullable="false" />
+          <Property Name="TipoSolicitud" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAISES">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePais" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreUsuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Rol" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VIAJEROS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SegundoNombre" Type="nvarchar" MaxLength="100" />
+          <Property Name="Apellido1" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Apellido2" Type="nvarchar" MaxLength="100" />
+          <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
+          <Property Name="Nacionalidad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Genero" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Documento_Viajero">
+          <End Role="VIAJEROS" Type="Self.VIAJEROS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAJEROS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DOCUMENTO">
+              <PropertyRef Name="IdViajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Destino">
+          <End Role="PAISES" Type="Self.PAISES" Multiplicity="1" />
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAISES">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="Destino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Origen">
+          <End Role="PAISES" Type="Self.PAISES" Multiplicity="1" />
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAISES">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="Origen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Usuario">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Viajero">
+          <End Role="VIAJEROS" Type="Self.VIAJEROS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAJEROS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="IdViajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlMigracionModelStoreContainer">
+          <EntitySet Name="DOCUMENTO" EntityType="Self.DOCUMENTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MOVIMIENTOS" EntityType="Self.MOVIMIENTOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAISES" EntityType="Self.PAISES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VIAJEROS" EntityType="Self.VIAJEROS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Documento_Viajero" Association="Self.FK_Documento_Viajero">
+            <End Role="VIAJEROS" EntitySet="VIAJEROS" />
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Destino" Association="Self.FK_Movimientos_Destino">
+            <End Role="PAISES" EntitySet="PAISES" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Origen" Association="Self.FK_Movimientos_Origen">
+            <End Role="PAISES" EntitySet="PAISES" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Usuario" Association="Self.FK_Movimientos_Usuario">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Viajero" Association="Self.FK_Movimientos_Viajero">
+            <End Role="VIAJEROS" EntitySet="VIAJEROS" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ControlMigracionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DOCUMENTO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoDocumento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumeroDocumento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaExpiracion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdViajero" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VIAJERO" Relationship="Self.FK_Documento_Viajero" FromRole="DOCUMENTO" ToRole="VIAJEROS" />
+        </EntityType>
+        <EntityType Name="MOVIMIENTO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdViajero" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Destino" Type="Int32" Nullable="false" />
+          <Property Name="Origen" Type="Int32" Nullable="false" />
+          <Property Name="TipoSolicitud" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PAIS" Relationship="Self.FK_Movimientos_Destino" FromRole="MOVIMIENTOS" ToRole="PAISES" />
+          <NavigationProperty Name="PAIS1" Relationship="Self.FK_Movimientos_Origen" FromRole="MOVIMIENTOS" ToRole="PAISES" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK_Movimientos_Usuario" FromRole="MOVIMIENTOS" ToRole="USUARIOS" />
+          <NavigationProperty Name="VIAJERO" Relationship="Self.FK_Movimientos_Viajero" FromRole="MOVIMIENTOS" ToRole="VIAJEROS" />
+        </EntityType>
+        <EntityType Name="PAIS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePais" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MOVIMIENTOS" Relationship="Self.FK_Movimientos_Destino" FromRole="PAISES" ToRole="MOVIMIENTOS" />
+          <NavigationProperty Name="MOVIMIENTOS1" Relationship="Self.FK_Movimientos_Origen" FromRole="PAISES" ToRole="MOVIMIENTOS" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MOVIMIENTOS" Relationship="Self.FK_Movimientos_Usuario" FromRole="USUARIOS" ToRole="MOVIMIENTOS" />
+        </EntityType>
+        <EntityType Name="VIAJERO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SegundoNombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apellido2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Nacionalidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DOCUMENTOes" Relationship="Self.FK_Documento_Viajero" FromRole="VIAJEROS" ToRole="DOCUMENTO" />
+          <NavigationProperty Name="MOVIMIENTOS" Relationship="Self.FK_Movimientos_Viajero" FromRole="VIAJEROS" ToRole="MOVIMIENTOS" />
+        </EntityType>
+        <Association Name="FK_Documento_Viajero">
+          <End Role="VIAJEROS" Type="Self.VIAJERO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAJEROS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DOCUMENTO">
+              <PropertyRef Name="IdViajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Destino">
+          <End Role="PAISES" Type="Self.PAIS" Multiplicity="1" />
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAISES">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="Destino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Origen">
+          <End Role="PAISES" Type="Self.PAIS" Multiplicity="1" />
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAISES">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="Origen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Usuario">
+          <End Role="USUARIOS" Type="Self.USUARIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movimientos_Viajero">
+          <End Role="VIAJEROS" Type="Self.VIAJERO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MOVIMIENTOS" Type="Self.MOVIMIENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIAJEROS">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MOVIMIENTOS">
+              <PropertyRef Name="IdViajero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlMigracionEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DOCUMENTOes" EntityType="Self.DOCUMENTO" />
+          <EntitySet Name="MOVIMIENTOS" EntityType="Self.MOVIMIENTO" />
+          <EntitySet Name="PAISES" EntityType="Self.PAIS" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIO" />
+          <EntitySet Name="VIAJEROS" EntityType="Self.VIAJERO" />
+          <AssociationSet Name="FK_Documento_Viajero" Association="Self.FK_Documento_Viajero">
+            <End Role="VIAJEROS" EntitySet="VIAJEROS" />
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Destino" Association="Self.FK_Movimientos_Destino">
+            <End Role="PAISES" EntitySet="PAISES" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Origen" Association="Self.FK_Movimientos_Origen">
+            <End Role="PAISES" EntitySet="PAISES" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Usuario" Association="Self.FK_Movimientos_Usuario">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movimientos_Viajero" Association="Self.FK_Movimientos_Viajero">
+            <End Role="VIAJEROS" EntitySet="VIAJEROS" />
+            <End Role="MOVIMIENTOS" EntitySet="MOVIMIENTOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ControlMigracionModelStoreContainer" CdmEntityContainer="ControlMigracionEntities1">
+          <EntitySetMapping Name="DOCUMENTOes">
+            <EntityTypeMapping TypeName="ControlMigracionModel.DOCUMENTO">
+              <MappingFragment StoreEntitySet="DOCUMENTO">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="FechaExpiracion" ColumnName="FechaExpiracion" />
+                <ScalarProperty Name="IdViajero" ColumnName="IdViajero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOVIMIENTOS">
+            <EntityTypeMapping TypeName="ControlMigracionModel.MOVIMIENTO">
+              <MappingFragment StoreEntitySet="MOVIMIENTOS">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdViajero" ColumnName="IdViajero" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="TipoSolicitud" ColumnName="TipoSolicitud" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAISES">
+            <EntityTypeMapping TypeName="ControlMigracionModel.PAIS">
+              <MappingFragment StoreEntitySet="PAISES">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombrePais" ColumnName="NombrePais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="ControlMigracionModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Rol" ColumnName="Rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VIAJEROS">
+            <EntityTypeMapping TypeName="ControlMigracionModel.VIAJERO">
+              <MappingFragment StoreEntitySet="VIAJEROS">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="SegundoNombre" ColumnName="SegundoNombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

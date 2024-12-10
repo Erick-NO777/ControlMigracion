@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ControlMigracion.Controllers.MOVIMIENTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoSolicitud)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAIS.NombrePais)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAIS1.NombrePais)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USUARIO.NombreUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VIAJERO.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoSolicitud)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAIS.NombrePais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAIS1.NombrePais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USUARIO.NombreUsuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VIAJERO.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
